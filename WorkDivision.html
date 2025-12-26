@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目分工 - YourUSTC for HarmonyOS NEXT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .repo-link {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 10px 0;
+            transition: all 0.3s;
+        }
+        
+        .repo-link:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .part-section {
+            width: 100%;
+            margin-bottom: 40px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .part-2 {
+            border-left-color: #e74c3c;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #3498db;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title:before {
+            content: "•";
+            margin-right: 10px;
+            font-size: 2rem;
+            color: #3498db;
+        }
+        
+        .file-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+        
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .file-name {
+            font-family: 'Consolas', monospace;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .file-desc {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-name {
+            font-weight: 500;
+        }
+        
+        .person {
+            background-color: #e8f4fc;
+            color: #2980b9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .person-du {
+            background-color: #e8f6f3;
+            color: #16a085;
+        }
+        
+        .person-zhu {
+            background-color: #fdedec;
+            color: #e74c3c;
+        }
+        
+        .person-li {
+            background-color: #fef9e7;
+            color: #f39c12;
+        }
+        
+        .person-llm {
+            background-color: #e8daef;
+            color: #8e44ad;
+        }
+        
+        .person-multi {
+            background-color: #f4ecf7;
+            color: #9b59b6;
+        }
+        
+        .part-2-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .external-task {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #e74c3c;
+        }
+        
+        .external-task h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .part-section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .file-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .file-desc {
+                margin-top: 5px;
+            }
+            
+            .task-item {
+                flex-direction: column;
+            }
+            
+            .person {
+                margin-top: 5px;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>「你的科大」项目分工</h1>
+            <div class="subtitle">YourUSTC for HarmonyOS NEXT</div>
+            <a href="https://github.com/Your-USTC/YourUSTC_HarmonyOSNEXT/tree/main/" class="repo-link" target="_blank">GitHub 仓库链接</a>
+        </header>
+        
+        <div class="main-content">
+            <!-- PART 1 -->
+            <section class="part-section">
+                <h2>PART 1 应用本体</h2>
+                
+                <div class="section-title">UI部分</div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/About.ets</div>
+                        <div class="file-desc">关于页面</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">彩蛋弹窗</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">分享</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/Declaration.ets</div>
+                        <div class="file-desc">首次启动时"非官方"声明</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/ExamDetail.ets</div>
+                        <div class="file-desc">本地考试信息</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/FaultOccurred.ets</div>
+                        <div class="file-desc">恢复模式</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/GetSchedule.ets</div>
+                        <div class="file-desc">获取课程表和考试</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">获取课程表和考试</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">禁止密码显示</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/Help.ets</div>
+                        <div class="file-desc">应用内帮助</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/Index.ets</div>
+                        <div class="file-desc">首页</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">tab切换</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">签到UI</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">课表UI</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">考试UI</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">功能UI</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">设置UI</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/Schedule.ets</div>
+                        <div class="file-desc">本地课表信息</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UI</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">编辑弹窗</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">叠课弹窗</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/pages/WebView.ets</div>
+                        <div class="file-desc">浏览器</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">WebView</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">加载动画</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">文件下载</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">错误提示</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">网站消息弹窗</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">数据处理部分</div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/CheckIn.ets</div>
+                        <div class="file-desc">签到管理</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">储存与管理</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">文案</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/Encryption.ets</div>
+                        <div class="file-desc">账号密码保存、加密、解密</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">储存与管理</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/ExamManager.ets</div>
+                        <div class="file-desc">考试信息管理</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">储存与管理</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/FunctionOrder.ets</div>
+                        <div class="file-desc">首页"功能"tab最近使用部分</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">储存与管理</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/TimeTable.ets</div>
+                        <div class="file-desc">课表信息管理</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">获取与储存</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">增删改查</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">叠课</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/tools.ets</div>
+                        <div class="file-desc">使用到的工具</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">几乎所有</div>
+                        <div class="person person-llm">LLM</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/UnifyPreference.ets</div>
+                        <div class="file-desc">保存设置信息</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">储存与管理</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/WriteCalendar.ets</div>
+                        <div class="file-desc">与系统日历联动</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">写入与删除</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/utils/jsencrypt/</div>
+                        <div class="file-desc">加密与解密库</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">组件部分</div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/view/BgImageDialog.ets</div>
+                        <div class="file-desc">设置背景图片的弹窗</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/view/BgImageManager.ets</div>
+                        <div class="file-desc">背景图片管理</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">储存与管理</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有页面的背景图片</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/view/GridComponent.ets</div>
+                        <div class="file-desc">首页"功能"单个分组</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/view/PasswordDialog.ets</div>
+                        <div class="file-desc">密码对话框</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">主要UI</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">机主检测</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/view/SettingsComponent.ets</div>
+                        <div class="file-desc">首页"设置"单个分组</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">其他部分</div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/entryability/EntryAbility.ets</div>
+                        <div class="file-desc">启动入口</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">UnifyPreference初始化</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">异常退出检测（恢复模式）</div>
+                        <div class="person person-multi">李铭承 & 祝一铭</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/class_schedule_daily</div>
+                        <div class="file-desc">桌面卡片部分</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">资源部分</div>
+                        <div class="file-desc">大部分注释</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">所有</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/constants/</div>
+                        <div class="file-desc">常量定义</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">GridListDataSources.ets, GridListIcons.ets, Links.ets, ListDataConstants.ets</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">ScheduleSources.ets, SettingsSources.ets</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">Useragent.ets</div>
+                        <div class="person person-du">杜思成</div>
+                    </div>
+                </div>
+                
+                <div class="file-section">
+                    <div class="file-header">
+                        <div class="file-name">./entry/src/main/ets/resources/</div>
+                        <div class="file-desc">资源文件</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">首页"功能"图标</div>
+                        <div class="person person-li">李铭承</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">角色创意和设计</div>
+                        <div class="person person-zhu">祝一铭</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">图片绘制</div>
+                        <div class="person person-multi">祝一铭 / 素材网站 / Gemini / Pixiv</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">深色模式图标</div>
+                        <div class="person person-multi">素材网站</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-name">*.html (rawfile/)</div>
+                        <div class="person person-llm">LLM</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- PART 2 -->
+            <section class="part-section part-2">
+                <h2>PART 2 应用之外</h2>
+                <a href="https://github.com/Your-USTC/wiki/" class="repo-link" target="_blank" style="background-color: rgba(231, 76, 60, 0.15);">GitHub 仓库链接（已设为私密）</a>
+                
+                <div class="part-2-content">
+                    <div class="external-task">
+                        <h3>CNN验证码识别</h3>
+                        <p>负责人员：</p>
+                        <div class="person person-zhu" style="margin-top: 10px;">祝一铭</div>
+                    </div>
+                    
+                    <div class="external-task">
+                        <h3>网站</h3>
+                        <p>负责人员：</p>
+                        <div class="person person-zhu" style="margin-top: 10px;">祝一铭</div>
+                    </div>
+                    
+                    <div class="external-task">
+                        <h3>宣传视频</h3>
+                        <p>负责人员：</p>
+                        <div class="person person-du" style="margin-top: 10px;">杜思成</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Copyright (c) YourUSTC Developer Team 2025</p>
+        </footer>
+    </div>
+</body>
+</html>
