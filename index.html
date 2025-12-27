@@ -39,6 +39,32 @@
             opacity: 0.9;
             text-align: center;
         }
+
+        .inline-content {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+            padding: 2px 6px;
+            background-color: #f5f7fa;
+            border-radius: 4px;
+            border: 1px solid #e4e7ed;
+        }
+
+        .copy-btn {
+            padding: 8px 18px;
+            background: rgba(64, 158, 255, 0.1);
+            color: #409eff;
+            border: 1px solid rgba(64, 158, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #409eff;
+            color: white;
+        }
         
         .accordion-container {
             max-width: 600px;
@@ -112,7 +138,7 @@
         /* --- 深色模式 (Dark Mode) 样式 --- */
         @media (prefers-color-scheme: dark) {
             body {
-                background-color: #1e1e1e00; /* 深色背景 */
+                background-color: #1e1e1e; /* 深色背景 */
                 color: #e0e0e0; /* 浅色文本 */
             }
 
@@ -126,6 +152,12 @@
 
             .header-subtitle {
                 color: #f0f0f0;
+            }
+
+            .inline-content {
+                color: #f8f9fa;
+                background-color: #2d3748;
+                border: 1px solid #4a5568;
             }
 
             .accordion-item {
@@ -169,6 +201,27 @@
 <div class="accordion-container">
     <div class="accordion-item">
         <div class="accordion-header">
+            <span class="accordion-title">如果你是中国科学技术大学的学生</span>
+            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </div>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <p>
+                    由于审核要求，我们不能将应用内链接直接设置为USTC各个网站的链接。你可以
+                    <button class="copy-btn" onclick="copyToClipboard()">点击此按钮</button>，把
+                    <code id="copyText" class="inline-content">The world open itself before those with noble hearts</code>
+                    复制到剪贴板，再前往应用内粘贴（粘贴方法见此帮助的第三条），无需手动输入USTC链接即可使用。
+                </p>
+                <p>导入成功后，将显示如下提示</p>
+                <img src="./res/custom_func_success.webp" width="100%">
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header">
             <span class="accordion-title">自定义链接的导入内容应该是什么格式？</span>
             <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
@@ -193,10 +246,7 @@
                 <p>（先将要导入的链接复制到剪贴板）有以下两种方式：</p>
                 <li>功能页点击任意一个链接。</li>
                 <li>设置页的“自定义「功能」页跳转链接”选项。</li>
-                <p>如果选择第一种，打开后会跳出如下弹窗</p>
-                <img src="./res/custom_single_func.webp" width="100%">
-                <p>在最左边的输入框中输入页面标题，在右边的输入框中输入你想让该项跳转的网址，最后点击最右边的✔️按钮，即可导入你点击的项目的对应跳转链接。</p>
-                <p>如果选择第二种，打开后会跳出如下弹窗</p>
+                <p>任选一种方式，打开后会跳出如下弹窗</p>
                 <img src="./res/custom_func_dialog.webp" width="100%">
                 <p>点击「从剪贴板导入」左边的蓝色按钮，即可导入自定义链接。</p>
             </div>
@@ -255,6 +305,75 @@
             }
         });
     });
+
+    async function copyToClipboard() {
+        try {
+            const text = document.getElementById('copyText').textContent;
+            // 写入剪贴板（异步操作）
+            await navigator.clipboard.writeText(text);
+            
+            // Theme configuration
+            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const tip = document.createElement('div');
+            const theme = {
+                bg: isDarkMode ? '#1f2937' : '#ffffff',
+                text: isDarkMode ? '#f9fafb' : '#111827',
+                border: isDarkMode ? '#374151' : '#e5e7eb',
+                shadow: isDarkMode 
+                    ? '0 10px 15px -3px rgba(0, 0, 0, 0.4)' 
+                    : '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+            };
+            const styles = {
+                position: 'fixed',
+                top: '5%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                padding: '12px 16px',
+                background: theme.bg,
+                color: theme.text,
+                border: `1px solid ${theme.border}`,
+                borderRadius: '10px',
+                boxShadow: theme.shadow,
+                zIndex: '9999',
+                fontWeight: '500',
+                fontSize: '18px',
+                fontFamily: '-apple-system, system-ui, sans-serif',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                opacity: '0',
+                transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' // Bouncy entry
+            };
+
+            Object.assign(tip.style, styles);
+
+            // Use a green accent for the success icon
+            tip.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor" style="color: #10b981;">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>已复制到剪贴板</span>
+            `;
+
+            document.body.appendChild(tip);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                tip.style.opacity = '1';
+                tip.style.top = '10%';
+            });
+
+            // Animate out and remove
+            setTimeout(() => {
+                tip.style.opacity = '0';
+                tip.style.top = '10%';
+                setTimeout(() => tip.remove(), 400);
+            }, 2500);
+        } catch (err) {
+            console.error('复制失败：', err);
+            alert('复制失败，请手动复制！');
+        }
+    }
 </script>
 
 </body>
